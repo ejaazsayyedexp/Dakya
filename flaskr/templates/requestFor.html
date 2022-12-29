@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to dakya</title>
+</head>
+<body>
+    <form action="#" method="post">
+        <select name="request_type" id="">
+            <option value="">Select</option>
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+        </select>&emsp;&emsp;
+        <input type="text" name="link" placeholder="Enter link here">
+        <div id="headerParams">
+            <p>Add Headers:&emsp;&emsp;<button type="button" onclick="addHeaderParamElements()">+</button></p>
+        </div>
+        <div id="formData">
+            <p>Add form data:&emsp;&emsp;<button type="button" onclick="addData()">+</button></p>
+        </div>
+        <p>
+            <button type="button" onclick="createFields()">Create fields</button>
+            <button type="submit" id="submitForm" disabled>Submit Form</button>
+        </p>
+    </form>
+    <div>
+        {% if response_data %}
+            {{response_data}}
+        {% else %}
+            <p>No data received yet!</p>
+        {% endif %}
+    </div>
+</body>
+<script>
+    var countData=0;
+    var countHeader=0;
+
+    function addData(){
+        var reqDataDiv = document.getElementById('formData');
+
+        var keyDataNode = document.createElement('input');
+        var valDataNode = document.createElement('input');
+        var paraDatanode = document.createElement('p');
+        var removeDataPara = document.createElement('button');
+
+        keyDataNode.setAttribute('type','text');
+        keyDataNode.setAttribute('name',`DataKey${countData}`);
+        keyDataNode.setAttribute('id',`DataKey${countData}`);
+        keyDataNode.setAttribute('placeholder',`Enter Data key ${countData}`);
+        keyDataNode.setAttribute('required','true');
+
+        valDataNode.setAttribute('type','text');
+        valDataNode.setAttribute('name',`DataValue${countData}`);
+        valDataNode.setAttribute('placeholder',`Enter Data value ${countData}`);
+        valDataNode.setAttribute('id',`DataVal${countData}`);
+        valDataNode.setAttribute('required','true');
+        
+        removeDataPara.setAttribute('type','button');
+        removeDataPara.setAttribute('id',`removeData${countData}`);
+        removeDataPara.setAttribute('onclick','removeDataParaNode()');
+        removeDataPara.innerHTML='-';
+
+        paraDatanode.setAttribute('id',`paraDatanode${countData}`);
+
+        paraDatanode.appendChild(keyDataNode);
+        paraDatanode.appendChild(valDataNode);
+        paraDatanode.appendChild(removeDataPara);
+
+        countData+=1;
+
+        reqDataDiv.appendChild(paraDatanode);        
+    }
+
+    function removeDataParaNode(){
+	    countData--;
+	    document.getElementById(`paraDatanode${countData}`).remove();
+    }
+
+    function addHeaderParamElements(){
+	var headerParamsDiv = document.getElementById('headerParams');
+
+	var keyHeaderNode = document.createElement('input');
+	var valHeaderNode = document.createElement('input');
+	var paraheadernode = document.createElement('p');
+	var removeHeaderPara = document.createElement('button');
+	
+	keyHeaderNode.setAttribute('type','text');
+	keyHeaderNode.setAttribute('name',`headerKey${countHeader}`);
+	keyHeaderNode.setAttribute('id',`headerKey${countHeader}`);
+	keyHeaderNode.setAttribute('placeholder',`Enter header key ${countHeader}`);
+	keyHeaderNode.setAttribute('required','true');
+	
+	valHeaderNode.setAttribute('type','text');
+	valHeaderNode.setAttribute('name',`headerValue${countHeader}`);
+	valHeaderNode.setAttribute('placeholder',`Enter header value ${countHeader}`);
+	valHeaderNode.setAttribute('id',`headerVal${countHeader}`);
+	valHeaderNode.setAttribute('required','true');
+	
+	removeHeaderPara.setAttribute('type','button');
+	removeHeaderPara.setAttribute('id',`removeHeader${countHeader}`);
+	removeHeaderPara.setAttribute('onclick','removeHeaderParaNode()');
+	removeHeaderPara.innerHTML='-';
+
+	paraheadernode.setAttribute('id',`paraheadernode${countHeader}`);
+
+	paraheadernode.appendChild(keyHeaderNode);
+	paraheadernode.appendChild(valHeaderNode);
+	paraheadernode.appendChild(removeHeaderPara);
+
+	countHeader+=1;
+
+	headerParamsDiv.appendChild(paraheadernode);
+}
+
+function removeHeaderParaNode(){
+	countHeader--;
+	document.getElementById(`paraheadernode${countHeader}`).remove();
+}
+
+function createFields(){
+	//need similar for the header fields
+	var newcount = countData-1;
+	var newheadercount=countHeader-1;
+	while(newheadercount>=0){
+        document.getElementById(`headerVal${newheadercount}`).setAttribute('name',document.getElementById(`headerKey${newheadercount}`).value.toString());
+		newheadercount--;
+	}
+	while(newcount>=0){
+		document.getElementById(`DataVal${newcount}`).setAttribute('name',document.getElementById(`DataKey${newcount}`).value.toString());
+		newcount--;
+	}
+	document.getElementById('submitForm').disabled=false;
+}
+</script>
+</html>

@@ -1,0 +1,54 @@
+function addHeaderParamElements(){
+	var headerParamsDiv = document.getElementById('headerParams');
+
+	var keyHeaderNode = document.createElement('input');
+	var valHeaderNode = document.createElement('input');
+	var paraheadernode = document.createElement('p');
+	var removeHeaderPara = document.createElement('button');
+	
+	keyHeaderNode.setAttribute('type','text');
+	keyHeaderNode.setAttribute('name',`headerKey${countHeader}`);
+	keyHeaderNode.setAttribute('id',`headerKey${countHeader}`);
+	keyHeaderNode.setAttribute('placeholder',`Enter header key ${countHeader}`);
+	keyHeaderNode.setAttribute('required','true');
+	
+	valHeaderNode.setAttribute('type','text');
+	valHeaderNode.setAttribute('name',`headerValue${countHeader}`);
+	valHeaderNode.setAttribute('placeholder',`Enter header value ${countHeader}`);
+	valHeaderNode.setAttribute('id',`headerVal${countHeader}`);
+	valHeaderNode.setAttribute('required','true');
+	
+	removeHeaderPara.setAttribute('type','button');
+	removeHeaderPara.setAttribute('id',`remove${countHeader}`);
+	removeHeaderPara.setAttribute('onclick','removeHeaderParaNode()');
+	removeHeaderPara.innerHTML='-';
+
+	paraheadernode.setAttribute('id',`paraheadernode${countHeader}`);
+
+	paraheadernode.appendChild(keyHeaderNode);
+	paraheadernode.appendChild(valHeaderNode);
+	paraheadernode.appendChild(removeHeaderPara);
+
+	countHeader+=1;
+
+	headerParamsDiv.appendChild(paraheadernode);
+}
+
+function removeHeaderParaNode(){
+	countHeader--;
+	document.getElementById(`paraheadernode${countHeader}`).remove();
+}
+		
+function createFields(){
+	//need similar for the header fields
+	var newcount = count-1;
+	var newheadercount=countHeader-1;
+	while(newheadercount>=0){						document.getElementById(`headerVal${newheadercount}`).setAttribute('name',document.getElementById(`headerKey${newheadercount}`).value.toString());
+		newheadercount--;
+	}
+	while(newcount>=0){
+		document.getElementById(`val${newcount}`).setAttribute('name',document.getElementById(`key${newcount}`).value.toString());
+		newcount--;
+	}
+	document.getElementById('submitForm').disabled=false;
+}

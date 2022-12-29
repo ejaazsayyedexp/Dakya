@@ -1,0 +1,8 @@
+.pytest_cache/
+flaskr.egg-info/
+include/
+Scripts/
+var/
+pyvenv.cfg
+Lib/
+*__pycache__*
